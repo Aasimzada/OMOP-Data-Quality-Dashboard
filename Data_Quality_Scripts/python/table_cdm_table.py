@@ -1,4 +1,4 @@
-# CDM_TABLE
+# Check name - CDM_TABLE
 
 # Verify the table exists.
 

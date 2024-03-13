@@ -10,7 +10,7 @@
 import pandas as pd
 
 # Parameters - path to your file name - containing the data
-path_to_your_file = '/Users/a.sahibzada/Dropbox (UFL)/My Docs/OMOP Data Quality/person_202402261509.csv'
+path_to_your_file = 'path to your file/your_table.csv'
 
 # Data frame representing the table
 df = pd.read_csv(path_to_your_file)

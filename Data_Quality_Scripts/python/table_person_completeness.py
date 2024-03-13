@@ -4,7 +4,7 @@
 
 import pandas as pd
 
-# Read data from CSV files or any other source
+# Read data from CSV files 
 df_person = pd.read_csv('path to your file/person.csv')
 df_your_table = pd.read_csv('path to your file/your_table.csv')
 

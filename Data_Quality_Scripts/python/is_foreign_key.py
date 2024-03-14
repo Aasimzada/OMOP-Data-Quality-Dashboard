@@ -4,7 +4,7 @@
 
 import pandas as pd
 
-# Read data from CSV files or any other source
+# Read data from CSV files 
 foreign_table = pd.read_csv('path to your file/your_foreign_table.csv')
 primary_table = pd.read_csv('path to your file/your_primary_table.csv')
 

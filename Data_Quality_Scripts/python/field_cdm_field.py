@@ -1,4 +1,4 @@
-# Check name - measurePersonCompleteness
+# Check name - cdmField
 
 #A yes or no value indicating if field is present in the  table as expected based on the specification.
 

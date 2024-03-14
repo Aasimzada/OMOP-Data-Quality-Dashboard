@@ -8,7 +8,7 @@ import pandas as pd
 df_your_table =  pd.read_csv('path to your file/your_table.csv')
 
 # Check if the field exists
-num_violated_rows = 1 if 'gender_concept_id' not in df_your_table.columns else 0
+num_violated_rows = 1 if 'field' not in df_your_table.columns else 0
 
 # Calculate denominator
 num_denominator_rows = 1

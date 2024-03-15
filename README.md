@@ -1,4 +1,4 @@
-# OMOPDataQualityDashboard
+# OMOP DataQuality Dashboard
 
 ## Introduction
 

@@ -37,6 +37,18 @@ Identifying the number and percentage of records with a value in the DIASTOLIC_B
 
 These checks are based on clinical knowledge of typical blood pressure ranges and can help flag potentially erroneous or implausible readings in the dataset. By applying such checks, we aim to ensure the quality and reliability of the recorded blood pressure data in the OMOP CDM.
 
-This version of our tool includes 24 distinct check types, categorized into Kahn contexts and categories. Each data quality check type is further classified as a table check, field check, or concept-level check. Table-level checks evaluate tables at a higher level, ensuring required tables are present or verifying the existence of records for individuals in the PERSON table within event tables. Field-level checks pertain to specific fields in a table and constitute the majority of Version 1 checks. These include evaluations of primary key relationships and investigations into whether concepts in a field adhere to specified domains. Concept-level checks relate to individual concepts and include evaluations such as identifying gender-specific concepts in individuals of the incorrect gender and assessing plausible values for measurement-unit pairs. Detailed descriptions and definitions of each check type are available in the provided link.
+This version of our tool includes 24 distinct check types, categorized into Kahn contexts and categories. Each data quality check type is further classified as a table check, field check, or concept-level check. 
+
+Table-level checks evaluate tables at a higher level, ensuring required tables are present or verifying the existence of records for individuals in the PERSON table within event tables. Field-level checks pertain to specific fields in a table and constitute the majority of checks. These include evaluations of primary key relationships and investigations into whether concepts in a field adhere to specified domains. Concept-level checks relate to individual concepts and include evaluations such as identifying gender-specific concepts in individuals of the incorrect gender and assessing plausible values for measurement-unit pairs. 
+
+Detailed descriptions and definitions of each check type are available in the provided [link].(https://ohdsi.github.io/DataQualityDashboard/articles/CheckTypeDescriptions)
 
 Following the systematic application of the 24 check types to an OMOP CDM version, approximately 4,000 individual data quality checks are resolved, executed against the database, and evaluated based on predefined thresholds.
+
+## Characteristics
+
+1. **Customizable Thresholds for Data Checks**: The system allows for the adjustment of thresholds for data checks according to specific requirements or preferences. This flexibility enables users to tailor the data checks to their particular needs, ensuring that the assessments are aligned with the desired standards or criteria.
+
+2. **Analysis of Data in the OMOP Common Data Model Format**: All data checks are conducted on data formatted according to the OMOP Common Data Model. This standardized format ensures consistency and compatibility across different datasets and facilitates seamless integration with other OMOP-based tools or platforms.
+
+3. **Generation of Comprehensive Data Check Results**: The system generates a comprehensive set of data check results, providing users with detailed insights into the quality of the dataset. Additionally, supplementary investigation assets are produced to assist users in further analyzing and interpreting the results. These assets may include visualizations, data summaries, or additional documentation to support decision-making and troubleshooting efforts.

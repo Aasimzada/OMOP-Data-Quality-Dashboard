@@ -1,6 +1,6 @@
 # OMOPDataQualityDashboard
 
-**Introduction**
+## Introduction
 
 To start, let's define what a data quality check is. It can be characterized as an aggregated summary statistic computed from the dataset, against which a decision threshold can be applied to determine if the statistic meets the expected standard.
 The quality assessments within our system adhere to the Kahn Framework , which provides a structured approach to evaluating data quality through a system of categories and contexts. To familiarize yourself with this framework, please refer to the provided [link].(https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5051581/)
@@ -9,7 +9,7 @@ The quality assessments within our system adhere to the Kahn Framework , which p
 
 For better comprehension, you can also refer to this [documentation](https://www.ohdsi.org/wp-content/uploads/2019/09/2-Plenary-1-OMOP-DQ-Clair-Andrew.pdf), which provides examples to aid understanding.
 
-**Overview**
+## Overview
 
 Our Data Quality Dashboard employs a systematic approach to conducting data quality assessments. Instead of creating numerous individual checks, we utilize "data quality check types." These check types offer broader, parameterized evaluations of data quality, accommodating various aspects of OMOP tables, fields, and concepts, while encapsulating a singular idea of data quality. 
 

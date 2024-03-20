@@ -51,4 +51,4 @@ Following the systematic application of the 24 check types to an OMOP CDM versio
 
 2. **Analysis of Data in the OMOP Common Data Model Format**: All data checks are conducted on data formatted according to the OMOP Common Data Model. This standardized format ensures consistency and compatibility across different datasets and facilitates seamless integration with other OMOP-based tools or platforms.
 
-3. **Generation of Comprehensive Data Check Results**: The system generates a comprehensive set of data check results, providing users with detailed insights into the quality of the dataset. Additionally, supplementary investigation assets are produced to assist users in further analyzing and interpreting the results. These assets may include visualizations, data summaries, or additional documentation to support decision-making and troubleshooting efforts.
+3. **Generation of Comprehensive Data Check Results**: The system generates a comprehensive set of data check results, providing users with detailed insights into the quality of the dataset. Additionally, visualizations are provided to assist users in further analyzing and interpreting the results. 

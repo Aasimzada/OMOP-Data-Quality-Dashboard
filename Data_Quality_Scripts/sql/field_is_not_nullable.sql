@@ -1,6 +1,6 @@
 
 /*********
-FIELD_IS_NOT_NULLABLE
+FIELD_IS_REQUIRED
 
 For each table, check that the fields in which IS_NOT_NULLABLE == TRUE, there are no null values in that field.
 

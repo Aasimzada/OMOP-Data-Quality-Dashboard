@@ -5,6 +5,7 @@ Determine what #/% of persons have condition_era built successfully
 for persons in condition_occurrence table
 
 Parameters used in this template:
+schema = @schema
 cdmTableName = CONDITION_ERA
 
 **********/

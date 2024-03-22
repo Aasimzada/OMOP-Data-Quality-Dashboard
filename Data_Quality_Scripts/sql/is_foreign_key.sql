@@ -31,7 +31,7 @@ FROM (
 		FROM @schema.@cdmTableName  cdmTable
 		  
 		  LEFT JOIN 
-		    @cdmDatabaseSchema.@fkTableName fkTable
+		    @schema.@fkTableName fkTable
 		     
 		  ON cdmTable.@cdmFieldName = fkTable.@fkFieldName
 		WHERE fkTable.@fkFieldName  IS NULL 

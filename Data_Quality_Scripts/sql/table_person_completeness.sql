@@ -2,7 +2,7 @@
 /*********
 Table Level:  
 MEASURE_PERSON_COMPLETENESS
-Determine what #/% of persons have at least one record in the cdmTable
+Determine what # / % of persons have at least one record in the cdmTable
 
 Parameters used in this template:
 schema = @schema

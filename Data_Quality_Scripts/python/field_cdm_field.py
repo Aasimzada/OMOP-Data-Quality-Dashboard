@@ -4,7 +4,7 @@
 
 import pandas as pd
 
-# Read data from CSV files or 
+# Read data from CSV files 
 df_your_table =  pd.read_csv('path to your file/your_table.csv')
 
 # Check if the field exists

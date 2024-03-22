@@ -3,7 +3,7 @@ CONCEPT_RECORD_COMPLETENESS
 number of 0s / total number of records 
 
 Parameters used in this template:
-cdmDatabaseSchema = @cdmDatabaseSchema
+schema = @schema
 cdmTableName = @cdmTableName
 cdmFieldName = @cdmFieldName
 
@@ -24,7 +24,7 @@ FROM (
 		SELECT 
 		  '@cdmTableName.@cdmFieldName' AS violating_field, 
 		  cdmTable.* 
-		FROM @cdmDatabaseSchema.@cdmTableName cdmTable
+		FROM @schema.@cdmTableName cdmTable
   		
 		WHERE cdmTable.@cdmFieldName = 0
 		/*violatedRowsEnd*/
@@ -32,7 +32,7 @@ FROM (
 ) violated_row_count,
 ( 
 	SELECT COUNT_BIG(*) AS num_rows
-	FROM @cdmDatabaseSchema.@cdmTableName cdmTable
+	FROM @schema.@cdmTableName cdmTable
 	  
 	
 ) denominator

@@ -24,9 +24,9 @@ FROM (
 		SELECT 
 		  '@cdmTableName.@cdmFieldName' AS violating_field, 
 		  cdmTable.*
-    FROM @cdmDatabaseSchema.@cdmTableName cdmTable
+    FROM @schema.@cdmTableName cdmTable
       
-      JOIN JOIN @schema.visit_occurrence vo
+      JOIN  @schema.visit_occurrence vo
       ON cdmTable.visit_occurrence_id = vo.visit_occurrence_id
     WHERE cdmTable.@cdmFieldName < dateadd(day, -7, vo.visit_start_date)
       OR cdmTable.@cdmFieldName > dateadd(day, 7, vo.visit_end_date)

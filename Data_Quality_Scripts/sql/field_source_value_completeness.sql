@@ -3,7 +3,7 @@ SOURCE_VALUE_COMPLETENESS
 number of source values with 0 standard concept / number of distinct source values
 
 Parameters used in this template:
-cdmDatabaseSchema = @cdmDatabaseSchema
+schema = @schema
 cdmTableName = @cdmTableName
 cdmFieldName = @cdmFieldName
 standardConceptFieldName = @standardConceptFieldName
@@ -24,7 +24,7 @@ FROM (
 		SELECT DISTINCT 
 		  '@cdmTableName.@cdmFieldName' AS violating_field, 
 		  cdmTable.@cdmFieldName
-		FROM @cdmDatabaseSchema.@cdmTableName cdmTable
+		FROM @schema.@cdmTableName cdmTable
 		  
 		WHERE cdmTable.@standardConceptFieldName = 0
 		/*violatedRowsEnd*/
@@ -33,7 +33,7 @@ FROM (
 (
 	SELECT 
 	  COUNT_BIG(distinct cdmTable.@cdmFieldName) + COUNT(DISTINCT CASE WHEN cdmTable.@cdmFieldName IS NULL THEN 1 END) AS num_rows
-	FROM @cdmDatabaseSchema.@cdmTableName cdmTable
+	FROM @schema.@cdmTableName cdmTable
   	
 ) denominator
 ;

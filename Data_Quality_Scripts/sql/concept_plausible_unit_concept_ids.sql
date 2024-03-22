@@ -3,7 +3,7 @@ CONCEPT LEVEL check:
 PLAUSIBLE_UNIT_CONCEPT_IDS - find any MEASUREMENT records that are associated with an incorrect UNIT_CONCEPT_ID
 
 Parameters used in this template:
-cdmDatabaseSchema = @cdmDatabaseSchema
+schema = @schema
 cdmTableName = @cdmTableName
 cdmFieldName = @cdmFieldName
 conceptId = @conceptId
@@ -28,7 +28,7 @@ FROM
 		/*violatedRowsBegin*/
 		SELECT 
 		  m.* 
-		FROM @cdmDatabaseSchema.@cdmTableName m
+		FROM @schema.@cdmTableName m
   		
 		WHERE m.@cdmFieldName = @conceptId
 		  AND 
@@ -41,7 +41,7 @@ FROM
 ( 
 	SELECT 
 	  COUNT_BIG(*) AS num_rows
-	FROM @cdmDatabaseSchema.@cdmTableName m
+	FROM @schema.@cdmTableName m
   	
 	WHERE m.@cdmFieldName = @conceptId
 	  AND value_as_number IS NOT NULL

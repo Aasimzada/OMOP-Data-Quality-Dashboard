@@ -4,7 +4,7 @@ MEASURE_VALUE_COMPLETENESS
 Computing number of null values and the proportion to total records per field
 
 Parameters used in this template:
-cdmDatabaseSchema = @cdmDatabaseSchema
+schema = @schema
 cdmTableName = @cdmTableName
 cdmFieldName = @cdmFieldName
 
@@ -28,7 +28,7 @@ FROM
 		SELECT 
 			'@cdmTableName.@cdmFieldName' AS violating_field, 
 			cdmTable.* 
-		FROM @cdmDatabaseSchema.@cdmTableName
+		FROM @schema.@cdmTableName
 			
 		WHERE cdmTable.SPONSOR_CONCEPT_ID IS NULL
 		/*violatedRowsEnd*/
@@ -37,7 +37,7 @@ FROM
 ( 
 	SELECT 
 		COUNT_BIG(*) AS num_rows
-	FROM @cdmDatabaseSchema.@cdmTableName
+	FROM @schema.@cdmTableName
 	  
 ) denominator
 ;

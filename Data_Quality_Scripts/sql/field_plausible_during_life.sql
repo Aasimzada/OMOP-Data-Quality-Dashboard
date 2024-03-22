@@ -30,7 +30,7 @@ FROM
 			cdmTable.*
     	FROM @schema.@cdmTableName cdmTable
     		
-    	JOIN @Schema.death de ON cdmTable.person_id = de.person_id
+    	JOIN @schema.death de ON cdmTable.person_id = de.person_id
     	WHERE CAST(cdmTable.@cdmFieldName AS DATE) > DATEADD(day, 60, CAST(de.death_date AS DATE))
 		/*violatedRowsEnd*/
 	) violated_rows

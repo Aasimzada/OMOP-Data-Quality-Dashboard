@@ -38,7 +38,7 @@ FROM
 ( 
 	SELECT 
 		COUNT_BIG(*) AS num_rows
-	FROM @cdmDatabaseSchema.person cdmTable
+	FROM @schema.person cdmTable
 		
 ) denominator
 ;

@@ -4,7 +4,7 @@ CONCEPT LEVEL check:
 PLAUSIBLE_GENDER - number of records of a given concept which occur in person with implausible gender for that concept
 
 Parameters used in this template:
-Schema = @Schema
+schema = @schema
 cdmTableName = @cdmTableName
 cdmFieldName = @cdmFieldName
 conceptId = @conceptId
@@ -28,8 +28,8 @@ FROM
 	(
 		/*violatedRowsBegin*/
 		SELECT cdmTable.* 
-		FROM @Schema.@cdmTableName cdmTable
-			JOIN @Schema.person p
+		FROM @schema.@cdmTableName cdmTable
+			JOIN @schema.person p
 			ON cdmTable.person_id = p.person_id
 			
 		WHERE cdmTable.@cdmFieldName = @conceptId
@@ -40,7 +40,7 @@ FROM
 ( 
 	SELECT 
 	  COUNT_BIG(*) AS num_rows
-	FROM @Schema.@cdmTableName cdmTable
+	FROM @schema.@cdmTableName cdmTable
   	
 	WHERE @cdmFieldName = @conceptId
 ) denominator

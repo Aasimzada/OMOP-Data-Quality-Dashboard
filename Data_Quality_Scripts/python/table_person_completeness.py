@@ -33,3 +33,5 @@ print("Number of persons without at least one record in your_table:", num_violat
 print("Percentage of persons without at least one record in your_table:", pct_violated_rows)
 print("Total number of persons in the CDM:", num_denominator_rows)
 
+# Stop the Spark session
+spark.stop()

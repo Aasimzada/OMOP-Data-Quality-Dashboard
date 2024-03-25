@@ -27,5 +27,10 @@ pct_violated_rows = 0 if num_denominator_rows == 0 else num_violated_rows / num_
 # Output results
 print("Number of violated rows:", num_violated_rows)
 print("Percentage of violated rows:", pct_violated_rows)
-print("Total number of rows in your_table:", num_denominator_rows)
+print("Total number of rows in the your_table:", num_denominator_rows)
+
+# Stop the Spark session
+spark.stop()
+
+
 

@@ -39,3 +39,6 @@ if os.path.exists(file_path):
 else:
     print("Error: File does not exist at the specified path.")
 
+# Stop the Spark session
+spark.stop()
+

@@ -33,3 +33,6 @@ print("Number of persons without condition_era built successfully:", num_violate
 print("Percentage of persons without condition_era built successfully:", pct_violated_rows)
 print("Total number of persons in the condition_occurrence table:", num_denominator_rows)
 
+# Stop the Spark session
+spark.stop()
+

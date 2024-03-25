@@ -23,7 +23,7 @@ pct_violated_rows = num_violated_rows / num_denominator_rows * 100  # Multiplyin
 # Output results
 print("Number of violated rows:", num_violated_rows)
 print("Percentage of violated rows: {:.2f}%".format(pct_violated_rows))
-print("Total number of rows in consideration:", num_denominator_rows)
+print("Total number of rows in the table:", num_denominator_rows)
 
 # Stop the Spark session
 spark.stop()

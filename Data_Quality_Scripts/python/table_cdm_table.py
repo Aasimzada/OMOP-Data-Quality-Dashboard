@@ -7,24 +7,35 @@
 # We calculate num_denominator_rows as the total number of rows in the table.
 # We calculate pct_violated_rows as the percentage of violated rows.
 
-import pandas as pd
+from pyspark.sql import SparkSession
+import os
 
-# Parameters - path to your file name - containing the data
-path_to_your_file = 'path to your file/your_table.csv'
+# Initialize SparkSession
+spark = SparkSession.builder \
+    .appName("File Existence Check") \
+    .getOrCreate()
 
-# Data frame representing the table
-df = pd.read_csv(path_to_your_file)
+# Parameters - path to your file
+file_path = "path_to_your_file/your_file.csv"
 
-# Count the number of rows in the data frame
-num_denominator_rows = len(df)
+# Check if the file exists
+if os.path.exists(file_path):
+    # Read data from the file
+    df = spark.read.csv(file_path, header=True, inferSchema=True)
+    
+    # Count the number of rows
+    num_denominator_rows = df.count()
 
-# Count the number of rows where a condition is met
-num_violated_rows = sum(1 for row in df.iterrows() if False)
+    # Assign a value of 0 to num_violated_rows if the file exists
+    num_violated_rows = 0
 
-# Calculate percentage of violated rows
-pct_violated_rows = num_violated_rows / num_denominator_rows if num_denominator_rows != 0 else 0
+    # Calculate percentage of violated rows
+    pct_violated_rows = 0 if num_denominator_rows == 0 else num_violated_rows / num_denominator_rows
 
-# Output results
-print("num_violated_rows:", num_violated_rows)
-print("pct_violated_rows:", pct_violated_rows)
-print("num_denominator_rows:", num_denominator_rows)
+    # Output results
+    print("num_violated_rows:", num_violated_rows)
+    print("pct_violated_rows:", pct_violated_rows)
+    print("num_denominator_rows:", num_denominator_rows)
+else:
+    print("Error: File does not exist at the specified path.")
+

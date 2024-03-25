@@ -27,3 +27,6 @@ pct_violated_rows = 0 if num_denominator_rows == 0 else num_violated_rows / num_
 print("Number of persons without condition_era built successfully:", num_violated_rows)
 print("Percentage of persons without condition_era built successfully:", pct_violated_rows)
 print("Total number of persons in the condition_occurrence table:", num_denominator_rows)
+
+# Stop the Spark session
+spark.stop()

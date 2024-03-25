@@ -28,3 +28,6 @@ pct_violated_rows = num_violated_rows / num_denominator_rows if num_denominator_
 print("num_violated_rows:", num_violated_rows)
 print("pct_violated_rows:", pct_violated_rows)
 print("num_denominator_rows:", num_denominator_rows)
+
+# Stop the Spark session
+spark.stop()

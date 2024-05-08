@@ -3,39 +3,44 @@
 #The number and percent of records that have a value in the @cdmFieldName field in the @cdmTableName table that does not exist in the @fkTableName table.
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col  # Import the col function
 
-# Initialize SparkSession
-spark = SparkSession.builder \
-    .appName("Foreign Key Check") \
-    .getOrCreate()
+def foreign_key_check(spark, cdm_Table, fk_Table, cdm_field, fk_field):
+    """
+    Perform a foreign key check using DataFrames from CSV files.
+    
+    Parameters:
+    - spark: SparkSession object
+    - cdm_Table: Path to the CDM table CSV file
+    - fk_Table: Path to the foreign key table  CSV file
+    - cdm_field: Name of the field in the CDM table
+    - fk_field: Name of the field in the foreign key table
+    
+    Returns:
+    - num_violated_rows: Number of violated rows
+    - pct_violated_rows: Percentage of violated rows
+    - num_denominator_rows: Total number of rows in the CDM table
+    """
 
-# Read data from CSV files
-foreign_df = spark.read.csv('path_to_your_file/your_foreign_table.csv', header=True, inferSchema=True)
-primary_df = spark.read.csv('path_to_your_file/your_primary_table.csv', header=True, inferSchema=True)
+    # Read CDM table and vocabulary table
+    cdm_table = spark.read.csv(cdm_Table, header=True)
+    fk_table = spark.read.csv(fk_Table, header=True) 
 
-# Performing left join to check foreign key constraint
-merged_df = primary_df.join(foreign_df, 'field', 'left')
 
-# Filtering rows where the foreign key does not exist in the primary table
-violated_rows = merged_df.filter(col('field').isNull())
+    # Perform left join to find violating rows
+    violated_rows_df = cdm_table.join(fk_table, cdm_table[cdm_field] == fk_table[fk_field], "left_outer") \
+                              .filter(fk_table[fk_field].isNull() & cdm_table[cdm_field].isNotNull()) \
+                              .select(cdm_table[cdm_field])
 
-# Counting the number of violated rows
-num_violated_rows = violated_rows.count()
+    # Count the number of violated rows
+    num_violated_rows = violated_rows_df.count()
 
-# Total number of rows in the primary table
-num_denominator_rows = primary_df.count()
+    # Count the total number of rows in the CDM table
+    num_denominator_rows = cdm_table.count()
 
-# Calculating percentage of violated rows
-pct_violated_rows = 0 if num_denominator_rows == 0 else num_violated_rows / num_denominator_rows
+    # Calculate the percentage of violated rows
+    pct_violated_rows = (num_violated_rows / num_denominator_rows) if num_denominator_rows != 0 else 0
 
-# Outputting the results
-print("Number of violated rows:", num_violated_rows)
-print("Percentage of violated rows:", pct_violated_rows)
-print("Total number of rows in your_table:", num_denominator_rows)
-
-# Stop the Spark session
-spark.stop()
+    return num_violated_rows, pct_violated_rows, num_denominator_rows
 
 
 

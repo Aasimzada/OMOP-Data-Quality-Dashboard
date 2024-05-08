@@ -4,33 +4,37 @@
 
 from pyspark.sql import SparkSession
 
-# Initialize SparkSession
-spark = SparkSession.builder \
-    .appName("Primary Key Check") \
-    .getOrCreate()
+def primary_key_check(spark, cdm_Table, cdm_field):
+    """
+    
+    Parameters:
+    - spark: SparkSession object
+    - cdm_Table: Path to the CDM table CSV file
+    - cdm_field: Name of the field in the CDM table
+    
+    Returns:
+    - num_violated_rows: Number of violated rows
+    - pct_violated_rows: Percentage of violated rows
+    - num_denominator_rows: Total number of rows in the CDM table
+    """
 
-# Read data from CSV files
-df_your_table = spark.read.csv('path_to_your_file/your_table.csv', header=True, inferSchema=True)
+    # Read CSV file into DataFrame
+    cdm_table =  spark.read.csv(cdm_Table, header=True)
 
-# Check if the field is a primary key
-violated_rows = df_your_table.groupBy('field').count().filter("count > 1")
+    # Perform the primary key check
+    violated_rows_df = cdm_table.groupBy(cdm_field).count().filter("count > 1")
 
-# Calculate number of violated rows
-num_violated_rows = violated_rows.count()
+    # Count the number of violated rows
+    num_violated_rows = violated_rows_df.count()
 
-# Calculate denominator
-num_denominator_rows = df_your_table.count()
+    # Count the total number of rows in the CDM table
+    num_denominator_rows = cdm_table.count()
 
-# Calculate percentage of violated rows
-pct_violated_rows = 0 if num_denominator_rows == 0 else num_violated_rows / num_denominator_rows
+    # Calculate the percentage of violated rows
+    pct_violated_rows = (num_violated_rows / num_denominator_rows) if num_denominator_rows != 0 else 0
 
-# Output results
-print("Number of violated rows:", num_violated_rows)
-print("Percentage of violated rows:", pct_violated_rows)
-print("Total number of rows in the your_table:", num_denominator_rows)
+    return num_violated_rows, pct_violated_rows, num_denominator_rows
 
-# Stop the Spark session
-spark.stop()
 
 
 

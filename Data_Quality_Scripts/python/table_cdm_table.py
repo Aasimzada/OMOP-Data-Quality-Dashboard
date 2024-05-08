@@ -1,44 +1,35 @@
 # Check name - CDM_TABLE
-
-# Verify the table exists.
-
-# We first load the data from the table (should be stored in a CSV file named 'cdmTable.csv').
-# We calculate num_violated_rows as 0 if the table is empty (i.e., doesn't exist) or 1 otherwise.
-# We calculate num_denominator_rows as the total number of rows in the table.
-# We calculate pct_violated_rows as the percentage of violated rows.
+#Verify the existence of the CDM table.
 
 from pyspark.sql import SparkSession
-import os
 
-# Initialize SparkSession
-spark = SparkSession.builder \
-    .appName("File Existence Check") \
-    .getOrCreate()
-
-# Parameters - path to your file
-file_path = "path_to_your_file/your_file.csv"
-
-# Check if the file exists
-if os.path.exists(file_path):
-    # Read data from the file
-    df = spark.read.csv(file_path, header=True, inferSchema=True)
+def verify_cdm_table_existence(spark, cdm_Table):
+    """
     
-    # Count the number of rows
-    num_denominator_rows = df.count()
+    Parameters:
+    - spark: SparkSession object
+    - cdm_Table: Path to the CDM table CSV file
+    
+    Returns:
+    - num_violated_rows: Number of files that do not exist (should be either 0 or 1)
+    - pct_violated_rows: Percentage of files that do not exist (should be either 0 or 100)
+    - num_denominator_rows: Total number of files checked (always 1)
+    """
 
-    # Assign a value of 0 to num_violated_rows if the file exists
-    num_violated_rows = 0
+    try:
+        # Try reading the CSV file
+        df = spark.read.option("header", "true").csv(cdm_Table)
 
-    # Calculate percentage of violated rows
-    pct_violated_rows = 0 if num_denominator_rows == 0 else num_violated_rows / num_denominator_rows
+        # If reading is successful, consider the file exists
+        num_violated_rows = 0
+    except:
+        # If reading fails, consider the file does not exist
+        num_violated_rows = 1
 
-    # Output results
-    print("num_violated_rows:", num_violated_rows)
-    print("pct_violated_rows:", pct_violated_rows)
-    print("num_denominator_rows:", num_denominator_rows)
-else:
-    print("Error: File does not exist at the specified path.")
+    # Total number of files checked (always 1)
+    num_denominator_rows = 1
 
-# Stop the Spark session
-spark.stop()
+    # Calculate the percentage of files that do not exist
+    pct_violated_rows = (num_violated_rows / num_denominator_rows) * 100
 
+    return num_violated_rows, pct_violated_rows, num_denominator_rows

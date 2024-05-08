@@ -4,27 +4,32 @@
 
 from pyspark.sql import SparkSession
 
-# Initialize Spark session
-spark = SparkSession.builder.appName("CDM Field Check").getOrCreate()
+def cdm_field_check(spark, cdm_Table, cdm_field):
+    """
 
-# Load data from a CSV file
-df_your_table = spark.read.option("header", "true").csv('path to your file/your_table.csv')
+    Parameters:
+    - spark: SparkSession object
+    - cdm_Table: Path to the CDM table CSV file
+    - cdm_field: Name of the field to check for existence
 
-# Check if the field exists
-field_name = 'field'  # Replace 'field' with the actual column name you're checking
-num_violated_rows = 0 if field_name in df_your_table.columns else 1
+    Returns:
+    - num_violated_rows: Number of persons without a record in cdmTable
+    - pct_violated_rows: Percentage of persons without a record in cdmTable
+    - num_denominator_rows: Total number of persons
+    """
+    
+    # Load data from a CSV file into a DataFrame
+    cdm_table =  spark.read.csv(cdm_Table, header=True)
 
-# Since we're checking for the existence of a column, the denominator is conceptually 1 (the column's presence or absence)
-num_denominator_rows = 1
+    # Check if the field exists in the DataFrame
+    num_violated_rows = 0 if cdm_field.lower() in [column.lower() for column in cdm_table.columns] else 1
 
-# Calculate percentage of violated rows
-pct_violated_rows = num_violated_rows / num_denominator_rows * 100  # Multiplying by 100 to get a percentage
+    # Since we're checking for the existence of a column, the denominator is conceptually 1
+    num_denominator_rows = 1
 
-# Output results
-print("Number of violated rows:", num_violated_rows)
-print("Percentage of violated rows: {:.2f}%".format(pct_violated_rows))
-print("Total number of rows in the table:", num_denominator_rows)
+    # Calculate percentage of violated rows
+    pct_violated_rows = num_violated_rows / num_denominator_rows * 100  # Multiplying by 100 to get a percentage
 
-# Stop the Spark session
-spark.stop()
+    return num_violated_rows, pct_violated_rows, num_denominator_rows
+
 

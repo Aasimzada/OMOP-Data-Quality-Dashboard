@@ -4,35 +4,39 @@
 
 from pyspark.sql import SparkSession
 
-# Initialize SparkSession
-spark = SparkSession.builder \
-    .appName("Condition Era Completeness Check") \
-    .getOrCreate()
+def measure_condition_era_completeness(spark, condition_occurrence, condition_era):
+    """
+    Determine the number and percentage of persons with condition era built successfully
+    for persons in the condition occurrence table.
+    
+    Parameters:
+    - spark: SparkSession object
+    - condition_occurrence_csv: Path to the CSV file containing condition_occurrence data
+    - condition_era_csv: Path to the CSV file containing condition_era data
+    
+    Returns:
+    - num_violated_rows: Number of persons without condition era built successfully
+    - pct_violated_rows: Percentage of persons without condition era built successfully
+    - num_denominator_rows: Total number of persons in the condition occurrence table
+    """
+    
+    # Read condition_occurrence and condition_era CSV files into DataFrames
+    condition_occurrence_df =  spark.read.csv(condition_occurrence, header=True)
+    condition_era_df =  spark.read.csv(condition_era, header=True)
 
-# Read data from CSV files
-df_condition_occurrence = spark.read.csv('path_to_your_file/condition_occurrence.csv', header=True, inferSchema=True)
-df_condition_era = spark.read.csv('path_to_your_file/condition_era.csv', header=True, inferSchema=True)
+    # Perform left join and filter where there are no corresponding records in condition_era
+    violated_rows_df = condition_occurrence_df.join(condition_era_df, "person_id", "left_outer") \
+                                               .filter(condition_era_df.person_id.isNull()) \
+                                               .select("person_id").distinct()
 
-# Merge condition_occurrence and condition_era data using an inner join
-merged_df = df_condition_occurrence.join(df_condition_era, 'person_id', 'inner')
+    # Count the number of violated rows
+    num_violated_rows = violated_rows_df.count()
 
-# Identify persons without condition_era built successfully
-violated_rows = df_condition_occurrence.join(merged_df.select('person_id'), 'person_id', 'left_anti')
+    # Count the total number of distinct persons in the condition occurrence table
+    num_denominator_rows = condition_occurrence_df.select("person_id").distinct().count()
 
-# Calculate number of violated rows
-num_violated_rows = violated_rows.count()
+    # Calculate the percentage of violated rows
+    pct_violated_rows = (num_violated_rows / num_denominator_rows) if num_denominator_rows != 0 else 0
 
-# Calculate denominator
-num_denominator_rows = df_condition_occurrence.select('person_id').distinct().count()
-
-# Calculate percentage of violated rows
-pct_violated_rows = 0 if num_denominator_rows == 0 else num_violated_rows / num_denominator_rows
-
-# Output results
-print("Number of persons without condition_era built successfully:", num_violated_rows)
-print("Percentage of persons without condition_era built successfully:", pct_violated_rows)
-print("Total number of persons in the condition_occurrence table:", num_denominator_rows)
-
-# Stop the Spark session
-spark.stop()
+    return num_violated_rows, pct_violated_rows, num_denominator_rows
 
